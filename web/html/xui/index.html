@@ -564,7 +564,7 @@
                             return;
                         }
                         this.loading(true);
-                        const restartMsg = await HttpUtil.post("/panel/setting/restartPanel");
+                        const restartMsg = await HttpUtil.post("/xui/setting/restartPanel");
                         this.loading(false);
                         if (restartMsg.success) {
                             this.loading(true);
