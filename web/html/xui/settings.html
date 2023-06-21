@@ -12,6 +12,7 @@
         margin-top: 10px;
     }
 
+
     .ant-tabs-bar {
         margin: 0;
     }
@@ -515,7 +516,7 @@
             },
             async getAllSetting() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/panel/setting/all");
+                const msg = await HttpUtil.post("/x-ui/setting/all");
                 this.loading(false);
                 if (msg.success) {
                     this.oldAllSetting = new AllSetting(msg.obj);
@@ -526,7 +527,7 @@
             },
             async updateAllSetting() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/panel/setting/update", this.allSetting);
+                const msg = await HttpUtil.post("/xui/setting/update", this.allSetting);
                 this.loading(false);
                 if (msg.success) {
                     await this.getAllSetting();
@@ -534,7 +535,7 @@
             },
             async updateUser() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/panel/setting/updateUser", this.user);
+                const msg = await HttpUtil.post("/xui/setting/updateUser", this.user);
                 this.loading(false);
                 if (msg.success) {
                     this.user = {};
@@ -552,20 +553,20 @@
                     });
                 });
                 this.loading(true);
-                const msg = await HttpUtil.post("/panel/setting/restartPanel");
+                const msg = await HttpUtil.post("/xui/setting/restartPanel");
                 this.loading(false);
                 if (msg.success) {
                     this.loading(true);
                     await PromiseUtil.sleep(5000);
                     const { webCertFile, webKeyFile, webDomain: host, webPort: port, webBasePath: base } = this.allSetting;
                     const isTLS = webCertFile !== "" || webKeyFile !== "";
-                    const url = buildURL({ host, port, isTLS, base, path: "panel/settings" });
+                    const url = buildURL({ host, port, isTLS, base, path: "xui/settings" });
                     window.location.replace(url);
                 }
             },
             async fetchUserSecret() {
                 this.loading(true);
-                const userMessage = await HttpUtil.post("/panel/setting/getUserSecret", this.user);
+                const userMessage = await HttpUtil.post("/xui/setting/getUserSecret", this.user);
                 if (userMessage.success) {
                     this.user = userMessage.obj;
                 }
@@ -573,7 +574,7 @@
             },
             async updateSecret() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/panel/setting/updateUserSecret", this.user);
+                const msg = await HttpUtil.post("/xui/setting/updateUserSecret", this.user);
                 if (msg.success) {
                     this.user = msg.obj;
                     window.location.replace(basePath + "logout");
@@ -606,7 +607,7 @@
             },
             async resetXrayConfigToDefault() {
                 this.loading(true);
-                const msg = await HttpUtil.get("/panel/setting/getDefaultJsonConfig");
+                const msg = await HttpUtil.get("/xui/setting/getDefaultJsonConfig");
                 this.loading(false);
                 if (msg.success) {
                     this.templateSettings = JSON.parse(JSON.stringify(msg.obj, null, 2));
